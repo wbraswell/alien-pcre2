@@ -1,4 +1,6 @@
 use alienfile;
+
+#our $VERSION = 0.010_000;
  
 plugin 'PkgConfig' => 'libpcre2';
  
@@ -6,8 +8,8 @@ share {
     plugin Download => (
         url => 'ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/',
         filter => qr/^pcre2-.*\.tar\.gz$/,
-#        version => qr/([0-9\.]+)/,  # NEED FIX: prefers 10.21 over 10.23
-        version => qr/(10\.23)/,
+#        version => qr/([0-9\.]+)/,  # error, prefers 10.21 over 10.23
+        version => qr/^pcre2-([0-9\.]+)/,
     );
     plugin Extract => 'tar.gz';
     plugin 'Build::Autoconf' => ();
