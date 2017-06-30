@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 use ExtUtils::MakeMaker;
 use Alien::Build::MM;
@@ -58,7 +58,7 @@ WriteMakefile($abmm->mm_args(
             x_wiki        => "https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions",
         },
     },
-);
+));
 
 
 package MY;
