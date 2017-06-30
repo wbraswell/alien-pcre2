@@ -1,5 +1,5 @@
 language: perl
-# v0.004_000
+# v0.005_000
 
 # NEED FIX, CORRELATION #ap010: old version of Travis build OS does not support apt-get installation of libpcre2* ???
 #addons:
@@ -52,7 +52,7 @@ script:
     - make
     - make test
     - make install
-    - perl -e 'use Alien::PCRE2; use Env qw(@PATH); unshift @PATH, Alien::PCRE2->bin_dir(); print `pcre2-config`, "\n";'
+    - perl -e 'use Alien::PCRE2; use Env qw(@PATH); unshift @PATH, Alien::PCRE2->bin_dir(); print `pcre2-config --version`, "\n"; print `pcre2-config --cflags`, "\n";'
 
 notifications:
   irc:
