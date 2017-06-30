@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.003_000;
+our $VERSION = 0.004_000;
 
 use ExtUtils::MakeMaker;
 use Alien::Build::MM;
@@ -26,7 +26,7 @@ WriteMakefile($abmm->mm_args(
     VERSION_FROM => 'lib/Alien/PCRE2.pm',
     AUTHOR           => 'Will Braswell <wbraswell@cpan.org>',
     LICENSE          => 'perl_5',
-    EXE_FILES        => ['bin/pcre2-config', 'bin/pcre2grep', 'bin/pcre2test'],
+#    EXE_FILES        => ['bin/pcre2-config', 'bin/pcre2grep', 'bin/pcre2test'],  # error, no rule to make target 'bin/pcre2grep'
 #    MAKE             => 'gmake',   # CORRELATION #ap200, Windows + EU::MM + GNU makef
 
     CONFIGURE_REQUIRES => {
