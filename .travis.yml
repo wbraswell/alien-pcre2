@@ -1,13 +1,14 @@
 language: perl
-# v0.001_000
+# v0.002_000
 
-addons:
-    apt:
-        packages:
-            - libpcre2-8-0
-            - libpcre2-16-0
-            - libpcre2-32-0
-            - libpcre2-dev
+# NEED FIX, CORRELATION #ap010: old version of Travis build OS does not support apt-get installation of libpcre2* ???
+#addons:
+#    apt:
+#        packages:
+#            - libpcre2-8-0
+#            - libpcre2-16-0
+#            - libpcre2-32-0
+#            - libpcre2-dev
 
 perl:
     - "5.8"
@@ -41,9 +42,8 @@ before_install:
 # [ END Travis-CI Helper ]
 
 install:
-    # DEV NOTE, CORRELATION #ap001: must install IO::Socket::SSL & Alien::Base::ModuleBuild from Makefile.PL (which becomes META.json, for CPAN) & .travis.yml & appveyor.yml 
+    # DEV NOTE, CORRELATION #ap001: must install IO::Socket::SSL from Makefile.PL (which becomes META.json, for CPAN) & .travis.yml & appveyor.yml 
     - cpanm --verbose IO::Socket::SSL
-    - cpanm --verbose Alien::Base::ModuleBuild
     - cpanm --verbose --installdeps .
 
 script:
@@ -70,4 +70,5 @@ env:
         - AUTHOR_TESTING=0
     matrix:
         - ALIEN_INSTALL_TYPE=share
-        - ALIEN_INSTALL_TYPE=system
+# NEED FIX, CORRELATION #ap010: old version of Travis build OS does not support apt-get installation of libpcre2* ???
+#        - ALIEN_INSTALL_TYPE=system

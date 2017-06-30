@@ -1,4 +1,4 @@
-# v0.001_000
+# v0.002_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -18,12 +18,6 @@ environment:
 # DEV NOTE: do not test IO::Socket::SSL, about 50% of the time it hangs on the test after "t/sysread_write.t ................. ok"
 install:
 - cmd: >-
-
-    choco install libpcre2
-
-    pcre2-config
-
-    where.exe pcre2-config
 
     choco install curl
 
