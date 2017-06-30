@@ -1,4 +1,4 @@
-# v0.004_000
+# v0.005_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -67,6 +67,8 @@ install:
     set
 
     perl -le "print for @INC"
+
+    make
 
     make test
 build: off
