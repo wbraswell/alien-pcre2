@@ -1,0 +1,73 @@
+language: perl
+# v0.001_000
+
+addons:
+    apt:
+        packages:
+            - libpcre2-8-0
+            - libpcre2-16-0
+            - libpcre2-32-0
+            - libpcre2-dev
+
+perl:
+    - "5.8"
+    - "5.10"
+    - "5.12"
+    - "5.14"
+    - "5.16"
+    - "5.18"
+    - "5.20"
+    - "5.22"
+    - "5.24"
+    - "5.25"  # built using Travis-CI Helper
+    - "5.26"
+    - "5.27"  # built using Travis-CI Helper
+#    - "dev"  # built using Travis-CI Helper, same as latest 5.odd dev version above
+    - "blead"  # built using Travis-CI Helper
+
+# [ BEGIN Travis-CI Helper ]
+matrix:
+    allow_failures:
+        - perl: "blead"
+before_install:
+    - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
+    - source ~/travis-perl-helpers/init
+    - build-perl
+    - perl -V
+
+# NEED UPGRADE: use build-dist instead of cpanm calls below?
+#    - build-dist
+#    - cd $BUILD_DIR             # $BUILD_DIR is set by the build-dist command
+# [ END Travis-CI Helper ]
+
+install:
+    # DEV NOTE, CORRELATION #ap001: must install IO::Socket::SSL & Alien::Base::ModuleBuild from Makefile.PL (which becomes META.json, for CPAN) & .travis.yml & appveyor.yml 
+    - cpanm --verbose IO::Socket::SSL
+    - cpanm --verbose Alien::Base::ModuleBuild
+    - cpanm --verbose --installdeps .
+
+script:
+    - perl Makefile.PL
+    - ./make
+    - ./make test
+    - ./make install
+    - perl -e 'use Alien::PCRE2; use Env qw(@PATH); unshift @PATH, Alien::PCRE2->bin_dir(); print `pcre2-config`, "\n";'
+
+notifications:
+  irc:
+    channels:
+        - "irc.perl.org#perl11"
+    on_success: always
+    on_failure: always
+    # to enable skip_join, in IRC channel first execute `/mode -n`
+    skip_join: true
+    template:
+        - "Alien::PCRE2 build %{result}. %{author} says '%{commit_message}'"
+        - "%{build_url} %{compare_url}"
+
+env:
+    global:
+        - AUTHOR_TESTING=0
+    matrix:
+        - ALIEN_INSTALL_TYPE=share
+        - ALIEN_INSTALL_TYPE=system

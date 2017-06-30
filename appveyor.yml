@@ -1,0 +1,77 @@
+# v0.001_000
+version: 1.0.{build}
+pull_requests:
+  do_not_increment_build_number: false
+skip_tags: true
+clone_depth: 1
+clone_folder: C:\projects\alien-pcre2
+
+environment:
+    matrix:
+        # share test, compile PCRE2 from source
+        - ALIEN_INSTALL_TYPE: share
+
+        # system test, uses PCRE2 from chocolatey
+        - ALIEN_INSTALL_TYPE: system
+
+# DEV NOTE, CORRELATION #ap001: must install IO::Socket::SSL from Makefile.PL (which becomes META.json, for CPAN) & .travis.yml & appveyor.yml 
+# DEV NOTE: do not test IO::Socket::SSL, about 50% of the time it hangs on the test after "t/sysread_write.t ................. ok"
+install:
+- cmd: >-
+
+    choco install libpcre2
+
+    pcre2-config
+
+    where.exe pcre2-config
+
+    choco install curl
+
+    curl -V
+
+    curl -O http://strawberryperl.com/download/5.24.0.1/strawberry-perl-5.24.0.1-32bit.msi
+
+    msiexec /i strawberry-perl-5.24.0.1-32bit.msi /quiet /qn /norestart
+
+    set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\windows\system32;C:\windows;%path%
+
+    gcc -v
+
+    g++ -v
+
+    perl -V
+
+    perl -e"require CPAN;CPAN::Shell->verbose('install','App::cpanminus');"
+
+    echo pre-gmake ALIEN_INSTALL_TYPE = %ALIEN_INSTALL_TYPE%
+
+    set ALIEN_INSTALL_TYPE_TMP=%ALIEN_INSTALL_TYPE%
+
+    set ALIEN_INSTALL_TYPE=system
+
+    echo gmake ALIEN_INSTALL_TYPE = %ALIEN_INSTALL_TYPE%
+
+    cpanm --verbose Alien::MSYS
+
+    cpanm --verbose Alien::gmake
+
+    set ALIEN_INSTALL_TYPE=%ALIEN_INSTALL_TYPE_TMP%
+
+    echo post-gmake ALIEN_INSTALL_TYPE = %ALIEN_INSTALL_TYPE%
+
+    cpanm --verbose --notest IO::Socket::SSL
+
+    perl Makefile.PL
+
+    cpanm --verbose --installdeps .
+
+    set PERL5LIB=blib;lib
+
+    set
+
+    perl -le "print for @INC"
+
+    make test
+build: off
+test: off
+deploy: off
