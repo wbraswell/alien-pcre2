@@ -1,6 +1,6 @@
 use alienfile;
 
-#our $VERSION = 0.013_000;
+#our $VERSION = 0.014_000;
  
 plugin 'PkgConfig' => 'libpcre2';
  
@@ -18,9 +18,9 @@ share {
         '%{configure} --enable-pcre2-16 --enable-pcre2-32 --enable-jit',  # NEED ANSWER: what hardware is not supported for JIT???
 #        '%{make}',
 #        '%{make} install',
-        '%{dmake}',
-        '%{dmake} install',
-#        '%{gmake}',
-#        '%{gmake} install',
+#        '%{dmake}',
+#        '%{dmake} install',
+        '%{gmake}',
+        '%{gmake} install',
     ];
 };
