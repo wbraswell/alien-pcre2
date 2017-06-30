@@ -1,4 +1,4 @@
-# v0.002_000
+# v0.003_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -14,7 +14,7 @@ environment:
         # system test, uses PCRE2 from chocolatey
         - ALIEN_INSTALL_TYPE: system
 
-# DEV NOTE, CORRELATION #ap001: must install IO::Socket::SSL from Makefile.PL (which becomes META.json, for CPAN) & .travis.yml & appveyor.yml 
+# DEV NOTE, CORRELATION #ap001: must install IO::Socket::SSL & Alien::Build from Makefile.PL (which becomes META.json, for CPAN) & .travis.yml & appveyor.yml 
 # DEV NOTE: do not test IO::Socket::SSL, about 50% of the time it hangs on the test after "t/sysread_write.t ................. ok"
 install:
 - cmd: >-
@@ -54,6 +54,8 @@ install:
     echo post-gmake ALIEN_INSTALL_TYPE = %ALIEN_INSTALL_TYPE%
 
     cpanm --verbose --notest IO::Socket::SSL
+
+    cpanm --verbose --notest Alien::Build
 
     perl Makefile.PL
 
