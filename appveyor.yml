@@ -1,4 +1,4 @@
-# v0.007_000
+# v0.008_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -68,9 +68,9 @@ install:
 
     perl -le "print for @INC"
 
-    dmake
+    %{gmake}
 
-    dmake test
+    %{gmake} test
 
     perl -e 'use Alien::PCRE2; use Env qw(@PATH); unshift @PATH, Alien::PCRE2->bin_dir(); print `pcre2-config --version`, "\n"; print `pcre2-config --cflags`, "\n";'
 build: off
