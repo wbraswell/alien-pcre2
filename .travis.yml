@@ -1,5 +1,5 @@
 language: perl
-# v0.005_000
+# v0.007_000
 
 # NEED FIX, CORRELATION #ap010: old version of Travis build OS does not support apt-get installation of libpcre2* ???
 #addons:
@@ -50,8 +50,9 @@ install:
 script:
     - perl Makefile.PL
     - make
-    - make test
+    # must install before test to avoid 'error while loading shared libraries: libpcre2-8.so.0: cannot open shared object file: No such file or directory'
     - make install
+    - make test
     - perl -e 'use Alien::PCRE2; use Env qw(@PATH); unshift @PATH, Alien::PCRE2->bin_dir(); print `pcre2-config --version`, "\n"; print `pcre2-config --cflags`, "\n";'
 
 notifications:
