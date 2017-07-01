@@ -1,4 +1,4 @@
-# v0.016_000
+# v0.017_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -65,6 +65,8 @@ install:
     set PERL5LIB=blib;lib
 
     set MAKE=gmake
+
+    set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\windows\system32;C:\windows;C:\Perl\site\bin;C:\Perl\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Progra~1\7-Zip;C:\Progra~1\Microsoft\Web Platform Installer\;C:\Tools\GitVersion;C:\Tools\PsTools;C:\Progra~1\Git LFS;C:\Progra~2\Subversion\bin;C:\Progra~1\Microsoft SQL Server\120\Tools\Binn\;C:\Progra~1\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Progra~2\Microsoft SQL Server\120\Tools\Binn\;C:\Progra~1\Microsoft SQL Server\120\DTS\Binn\;C:\Progra~2\Microsoft SQL Server\120\Tools\Binn\ManagementStudio\;C:\Tools\WebDriver;C:\Progra~2\Microsoft SDKs\TypeScript\1.4\;C:\Progra~2\Microsoft Visual Studio 12.0\Common7\IDE\PrivateAssemblies\;C:\Progra~2\Microsoft SDKs\Azure\CLI\wbin;C:\Ruby193\bin;C:\Tools\NUnit\bin;C:\Tools\xUnit;C:\Tools\MSpec;C:\Tools\Coverity\bin;C:\Progra~2\CMake\bin;C:\go\bin;C:\Progra~1\Java\jdk1.8.0\bin;C:\Python27;C:\Progra~1\nodejs;C:\Progra~2\iojs;C:\Progra~1\iojs;C:\Users\appveyor\AppData\Roaming\npm;C:\Progra~1\Microsoft SQL Server\130\Tools\Binn\;C:\Progra~2\MSBuild\14.0\Bin;C:\Tools\NuGet;C:\Progra~2\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Progra~1\Microsoft DNX\Dnvm;C:\Progra~1\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Progra~2\Microsoft SQL Server\130\Tools\Binn\;C:\Progra~2\Microsoft SQL Server\130\DTS\Binn\;C:\Progra~1\Microsoft SQL Server\130\DTS\Binn\;C:\Progra~2\Microsoft SQL Server\110\DTS\Binn\;C:\Progra~2\Microsoft SQL Server\120\DTS\Binn\;C:\Progra~2\Apache\Maven\bin;C:\Python27\Scripts;C:\Tools\NUnit3;C:\Progra~1\Mercurial\;C:\Progra~1\LLVM\bin;C:\Progra~1\dotnet\;C:\Progra~1\erl8.3\bin;C:\Tools\curl\bin;C:\Progra~1\Amazon\AWSCLI\;C:\Progra~1\Git\cmd;C:\Progra~1\Git\usr\bin;C:\Progra~2\Microsoft SQL Server\140\DTS\Binn\;C:\Progra~2\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\140;C:\ProgramData\chocolatey\bin;C:\Progra~2\nodejs\;C:\Progra~2\Yarn\bin;C:\Progra~1\Microsoft Service Fabric\bin\Fabric\Fabric.Code;C:\Progra~1\Microsoft SDKs\Service Fabric\Tools\ServiceFabricLocalClusterManager;C:\Users\appveyor\AppData\Roaming\npm;C:\Users\appveyor\AppData\Local\Yarn\bin;C:\Progra~1\AppVeyor\BuildAgent\
 
     set
 
