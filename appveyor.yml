@@ -1,4 +1,4 @@
-# v0.015_000
+# v0.016_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -64,7 +64,7 @@ install:
 
     set PERL5LIB=blib;lib
 
-    set MAKE=dmake
+    set MAKE=gmake
 
     set
 
