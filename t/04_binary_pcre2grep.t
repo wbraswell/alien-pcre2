@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 use Test::More tests => 12;
 use File::Spec;
@@ -8,7 +8,7 @@ use Capture::Tiny qw( capture_merged );
 use Env qw( @PATH );
 use IPC::Cmd qw(can_run);
 use English qw(-no_match_vars);  # for $OSNAME
-use Data::Dumper;  # DEBUG
+#use Data::Dumper;  # DEBUG
 
 use_ok('Alien::PCRE2');
 unshift @PATH, Alien::PCRE2->bin_dir;
@@ -26,7 +26,7 @@ isnt($pcre2_path, q{}, '`pcre2grep` binary path is not empty');
 
 # run `pcre2grep --version`, check for valid output
 my $version = [ split /\r?\n/, capture_merged { system "$pcre2_path --version"; }];
-print {*STDERR} "\n\n", '<<< DEBUG >>> have $version =', Dumper($version), "\n\n";
+#print {*STDERR} "\n\n", '<<< DEBUG >>> have $version =', Dumper($version), "\n\n";
 cmp_ok((scalar @{$version}), '==', 1, '`pcre2grep --version` executes with 1 line of output');
 
 my $version_0 = $version->[0];
@@ -35,7 +35,7 @@ is((substr $version_0, 0, 18), 'pcre2grep version ', '`pcre2grep --version` 1 li
 ok($version_0 =~ m/([\d\.\-\s]+)$/xms, '`pcre2grep --version` 1 line of output ends correctly');
 
 my $version_split = [split / /, $1];
-print {*STDERR} "\n\n", '<<< DEBUG >>> have $version_split =', Dumper($version_split), "\n\n";
+#print {*STDERR} "\n\n", '<<< DEBUG >>> have $version_split =', Dumper($version_split), "\n\n";
 my $version_split_1 = $version_split->[1] + 0;
 my $version_split_1_split = [split /[.]/, $version_split_1];
 my $version_split_1_split_0 = $version_split_1_split->[0] + 0;
