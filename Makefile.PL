@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.006_000;
+our $VERSION = 0.007_000;
 
 use ExtUtils::MakeMaker;
 use Alien::Build::MM;
@@ -29,7 +29,6 @@ WriteMakefile($abmm->mm_args(
 #    EXE_FILES        => ['bin/pcre2-config', 'bin/pcre2grep', 'bin/pcre2test'],  # error, no rule to make target 'bin/pcre2grep'
 
 #    MAKE             => 'gmake',   # CORRELATION #ap200, Windows + EU::MM + GNU makef
-    MAKE             => 'dmake',   # CORRELATION #ap200, Windows + EU::MM + GNU makef
 
     CONFIGURE_REQUIRES => {
         # DEV NOTE, CORRELATION #ap001: must install IO::Socket::SSL & Alien::Build from Makefile.PL (which becomes META.json, for CPAN) & .travis.yml & appveyor.yml 
