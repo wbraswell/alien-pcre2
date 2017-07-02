@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Alien::PCRE2;
 
-our $VERSION = '0.002000';
+our $VERSION = '0.003000';
 
 use base qw( Alien::Base );
 
@@ -24,11 +24,8 @@ From a Perl script
 
  use Alien::PCRE2;
  use Env qw(@PATH);
- unshift @PATH, Alien::PCRE2->bin_dir();  # `pcre2-config` and `pcre2grep` commands are now in your path
-
-From Alien::Base Makefile.PL
-
-    ADD CODE HERE
+ unshift @PATH, Alien::PCRE2->bin_dir();
+ # `pcre2-config` and `pcre2grep` commands are now in your path, MS Windows users must call `sh pcre2-config`
 
 =head1 DESCRIPTION
 
