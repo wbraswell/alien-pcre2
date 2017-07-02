@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.008_000;
+our $VERSION = 0.009_000;
 
 use Test::More tests => 12;
 use File::Spec;
@@ -30,7 +30,7 @@ ok(defined $pcre2_path, '`pcre2grep` binary path is defined');
 isnt($pcre2_path, q{}, '`pcre2grep` binary path is not empty');
 
 # run `pcre2grep --version`, check for valid output
-my $version = [ split /\r?\n/, capture_merged { system "$pcre2_path --version"; }];
+my $version = [ split /\r?\n/, capture_merged { system $pcre2_path . ' --version'; }];
 print {*STDERR} "\n\n", '<<< DEBUG >>> in t/03_pcre2grep.t, have $version =', Dumper($version), "\n\n";
 cmp_ok((scalar @{$version}), '==', 1, '`pcre2grep --version` executes with 1 line of output');
 
@@ -52,7 +52,7 @@ if ($version_split_0 == 10) {
 }
 
 # run `pcre2grep Thursday t/_DaysOfWeek.txt`, check for valid output
-my $thursday = [ split /\r?\n/, capture_merged { system "$pcre2_path Thursday t/_DaysOfTheWeek.txt"; }];
+my $thursday = [ split /\r?\n/, capture_merged { system $pcre2_path . ' Thursday t/_DaysOfTheWeek.txt'; }];
 print {*STDERR} "\n\n", '<<< DEBUG >>> in t/03_pcre2grep.t, have $thursday =', Dumper($thursday), "\n\n";
 cmp_ok((scalar @{$thursday}), '==', 1, '`pcre2grep Thursday t/_DaysOfWeek.txt` executes with 1 line of output');
 

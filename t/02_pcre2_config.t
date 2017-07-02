@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.010_000;
+our $VERSION = 0.011_000;
 
 use Test::More tests => 26;
 use File::Spec;
@@ -62,7 +62,7 @@ ok(-f $pcre2_path, 'pcre2-config binary path is a file');
 ok(-x $pcre2_path, 'pcre2-config binary path is executable');
 
 # run `pcre2-config --version`, check for valid output
-my $version = [ split /\r?\n/, capture_merged { system "$pcre2_path --version"; }];
+my $version = [ split /\r?\n/, capture_merged { system 'sh ' . $pcre2_path . ' --version'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
 print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version = }, Dumper($version), "\n\n";
 cmp_ok((scalar @{$version}), '==', 1, '`pcre2-config --version` executes with 1 line of output');
 
@@ -83,7 +83,7 @@ if ($version_split_0 == 10) {
 }
 
 # run `pcre2-config --cflags`, check for valid output
-my $cflags = [ split /\r?\n/, capture_merged { system "$pcre2_path --cflags"; }];
+my $cflags = [ split /\r?\n/, capture_merged { system 'sh ' . $pcre2_path . ' --cflags'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
 print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags = }, Dumper($cflags), "\n\n";
 cmp_ok((scalar @{$cflags}), '==', 1, '`pcre2-config --cflags` executes with 1 line of output');
 
