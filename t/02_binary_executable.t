@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 use Test::More tests => 12;
 use File::Spec;
@@ -14,7 +14,8 @@ unshift @PATH, Alien::PCRE2->bin_dir;
 # check if `pcre2-config` can be run, if so get path to binary executable
 my $pcre2_path = undef;
 if ($OSNAME eq 'MSWin32') {
-    $pcre2_path = can_run('pcre2-config.exe');  # NEED ANSWER: is this correct???
+#    $pcre2_path = can_run('pcre2-config.exe');  # NEED ANSWER: is this correct???
+    $pcre2_path = can_run('pcre2-config');  # NEED ANSWER: is this correct???
 }
 else {
     $pcre2_path = can_run('pcre2-config');
