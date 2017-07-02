@@ -1,4 +1,4 @@
-# v0.019_000
+# v0.020_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -78,7 +78,14 @@ install:
 
     perl -le "use Alien::PCRE2; use Env qw(@PATH); unshift @PATH, Alien::PCRE2->bin_dir(); print `pcre2-config --version`, \"\n\"; print `pcre2-config --cflags`, \"\n\";"
 
-    dir /S /W C:\projects\ALIEN-~1\blib\lib\auto\share\dist\ALIEN-~1\
+    dir /S /W C:\projects\ALIEN-~1\blib\lib\auto\share\dist\ALIEN-~1\bin
+
+    dir /S /W C:/projects/alien-pcre2/_alien/destdir_UtBf/C/STRAWB~1/perl/site/lib/auto/share/dist/Alien-PCRE2/bin
+
+    dir /S /W C:/projects/alien-pcre2/blib/lib/auto/share/dist/Alien-PCRE2/bin
+
+    dir /S /W C:\STRAWB~1\perl\site\lib\auto\share\dist\Alien-PCRE2\bin
+
 build: off
 test: off
 deploy: off
