@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Alien::PCRE2;
 
-our $VERSION = '0.003000';
+our $VERSION = '0.004000';
 
 use base qw( Alien::Base );
 
@@ -25,11 +25,18 @@ From a Perl script
  use Alien::PCRE2;
  use Env qw(@PATH);
  unshift @PATH, Alien::PCRE2->bin_dir();
- # `pcre2-config` and `pcre2grep` commands are now in your path, MS Windows users must call `sh pcre2-config`
+ system 'pcre2-config';
+ system 'pcre2grep';
 
 =head1 DESCRIPTION
 
 This package can be used by other CPAN modules that require PCRE2 or libpcre2.
+
+B<PLEASE NOTE: This distribution will automatically call C<make install> as part of the C<make test> step!>
+
+This is necessary to avoid the following error when testing the C<pcre2grep> command:
+
+S<C<I<error while loading shared libraries: libpcre2-8.so.0: cannot open shared object file: No such file or directory>>>.
 
 =head1 AUTHOR
 

@@ -1,5 +1,9 @@
 Revision history for Alien::PCRE2.
 
+0.004000 2017-07-02
+
+    - Test Suite, Force `make install` Before `pcre2grep`
+
 0.003000 2017-07-01
 
     - Test Suite Update
