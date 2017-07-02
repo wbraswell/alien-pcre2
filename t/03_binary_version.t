@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 use Test::More tests => 12;
 use File::Spec;
@@ -33,7 +33,8 @@ cmp_ok((scalar @{$version}), '==', 1, '`pcre2-config --version` executes with 1 
 my $version_0 = $version->[0];
 print {*STDERR} "\n\n", q{<<< DEBUG >>> have $version_0 = '}, $version_0, q{'}, "\n\n";
 ok(defined $version_0, '`pcre2-config --version` 1 line of output is defined');
-ok($version_0 =~ m/^([\d\.]+)$/xms, '`pcre2-config --version` 1 line of output is valid');
+#ok($version_0 =~ m/^([\d\.]+)$/xms, '`pcre2-config --version` 1 line of output is valid');  # NEED ENABLE: stable releases only
+ok($version_0 =~ m/^([\d\.]+)-DEV$/xms, '`pcre2-config --version` 1 line of output is valid');  # NEED DISABLE: unstable pre-release '-DEV' only
 
 my $version_split = [split /[.]/, $1];
 print {*STDERR} "\n\n", q{<<< DEBUG >>> have $version_split = }, Dumper($version_split), "\n\n";
