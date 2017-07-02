@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.011_000;
+our $VERSION = 0.012_000;
 
 use Test::More tests => 26;
 use File::Spec;
@@ -59,7 +59,12 @@ ok(-d $pcre2_directory, 'can_run() binary directory is a directory');
 ok(-e $pcre2_path, 'pcre2-config binary path exists');
 ok(-r $pcre2_path, 'pcre2-config binary path is readable');
 ok(-f $pcre2_path, 'pcre2-config binary path is a file');
-ok(-x $pcre2_path, 'pcre2-config binary path is executable');
+
+# NEED FIX: Windows hack
+SKIP: {
+    skip 'MS Windows does not recognize shell script files as executable', 1 if ($OSNAME eq 'MSWin32');
+    ok(-x $pcre2_path, 'pcre2-config binary path is executable');
+}
 
 # run `pcre2-config --version`, check for valid output
 my $version = [ split /\r?\n/, capture_merged { system 'sh ' . $pcre2_path . ' --version'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
