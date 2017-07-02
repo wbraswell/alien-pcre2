@@ -1,4 +1,4 @@
-# v0.018_000
+# v0.019_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -72,13 +72,13 @@ install:
 
     perl -le "print for @INC"
 
-    dir /S /W C:\projects\ALIEN-~1\blib\lib\auto\share\dist\ALIEN-~1\
-
     dmake install
 
     dmake test
 
     perl -le "use Alien::PCRE2; use Env qw(@PATH); unshift @PATH, Alien::PCRE2->bin_dir(); print `pcre2-config --version`, \"\n\"; print `pcre2-config --cflags`, \"\n\";"
+
+    dir /S /W C:\projects\ALIEN-~1\blib\lib\auto\share\dist\ALIEN-~1\
 build: off
 test: off
 deploy: off
