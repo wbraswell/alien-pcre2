@@ -1,4 +1,4 @@
-# v0.017_000
+# v0.018_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -71,6 +71,8 @@ install:
     set
 
     perl -le "print for @INC"
+
+    dir /S /W C:\projects\ALIEN-~1\blib\lib\auto\share\dist\ALIEN-~1\
 
     dmake install
 

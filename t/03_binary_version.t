@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.004_000;
+our $VERSION = 0.005_000;
 
 use Test::More tests => 12;
 use File::Spec;
@@ -11,7 +11,10 @@ use English qw(-no_match_vars);  # for $OSNAME
 use Data::Dumper;  # DEBUG
 
 use_ok('Alien::PCRE2');
-unshift @PATH, Alien::PCRE2->bin_dir;
+my $pcre2_bin_dir = Alien::PCRE2->bin_dir();
+print {*STDERR} "\n\n", q{<<< DEBUG >>> have $pcre2_bin_dir = '}, $pcre2_bin_dir, q{'}, "\n\n";
+#unshift @PATH, Alien::PCRE2->bin_dir;
+unshift @PATH, $pcre2_bin_dir;
 
 # check if `pcre2-config` can be run, if so get path to binary executable
 my $pcre2_path = undef;
