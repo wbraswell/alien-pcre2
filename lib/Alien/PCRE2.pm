@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Alien::PCRE2;
 
-our $VERSION = '0.005000';
+our $VERSION = '0.006000';
 
 use base qw( Alien::Base );
 
@@ -22,11 +22,14 @@ Alien::PCRE2 - Find or download/build/install libpcre2 in PCRE2, the new Perl Co
 
 From a Perl script
 
- use Alien::PCRE2;
- use Env qw(@PATH);
- unshift @PATH, Alien::PCRE2->bin_dir();
- system 'pcre2-config';
- system 'pcre2grep';
+    use Alien::PCRE2;
+
+    use Env qw(@PATH);
+    unshift @PATH, Alien::PCRE2->bin_dir();
+    system 'pcre2-config';
+    system 'pcre2grep';
+
+    print Alien::PCRE2->dist_dir();
 
 =head1 DESCRIPTION
 
