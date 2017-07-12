@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.016_000;
+our $VERSION = 0.017_000;
 
 use Test::More tests => 26;
 use File::Spec;  # for splitpath() and catpath()
@@ -12,16 +12,16 @@ use Capture::Tiny qw( capture_merged );
 
 use_ok('Alien::PCRE2');
 my $pcre2_bin_dirs = [ Alien::PCRE2->bin_dir() ];
-#print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_bin_dirs = '}, $pcre2_bin_dirs, q{'}, "\n\n";
-unshift @PATH, $pcre2_bin_dirs;
+#print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_bin_dirs = '}, Dumper($pcre2_bin_dirs), q{'}, "\n\n";
+unshift @PATH, @{ $pcre2_bin_dirs };
 
 # test pcre2 directory permissions
 foreach my $pcre2_bin_dir (@{$pcre2_bin_dirs}) {
-    ok(defined $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() is defined');
-    isnt($pcre2_bin_dir, q{}, 'Alien::PCRE2->bin_dir() is not empty');
-    ok(-e $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() exists');
-    ok(-r $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() is readable');
-    ok(-d $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() is a directory');
+    ok(defined $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is defined');
+    isnt($pcre2_bin_dir, q{}, 'Alien::PCRE2->bin_dir() element is not empty');
+    ok(-e $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element exists');
+    ok(-r $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is readable');
+    ok(-d $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is a directory');
 }
 
 # check if `pcre2-config` can be run, if so get path to binary executable
