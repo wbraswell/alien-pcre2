@@ -10,12 +10,15 @@ use Data::Dumper;  # DEBUG
 
 plan(10);
 
-# test version flag
+# load alien
 alien_ok('Alien::PCRE2', 'Alien::PCRE2 loads successfully and conforms to Alien::Base specifications');
+
+# test version flag
 my $run_object = run_ok([ 'pcre2-config', '--version' ], 'Command `pcre2-config --version` runs');
 print {*STDERR} "\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $run_object->out() = }, Dumper($run_object->out()), "\n";
 print {*STDERR} "\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $run_object->err() = }, Dumper($run_object->err()), "\n";
 $run_object->success('Command `pcre2-config --version` runs successfully');
+# DEV NOTE: can't use out_like() on the next line because it does not properly capture to $1, as used in the following split
 ok($run_object->out() =~ m/^([\d\.]+)(?:-DEV)?$/xms, 'Command `pcre2-config --version` runs with valid output');
 
 # test actual version numbers
