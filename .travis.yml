@@ -1,5 +1,5 @@
 language: perl
-# v0.010_000
+# v0.011_000
 
 # NEED FIX, CORRELATION #ap010: old version of Travis build OS does not support apt-get installation of libpcre2* ???
 #addons:
@@ -20,9 +20,9 @@ perl:
     - "5.20"
     - "5.22"
     - "5.24"
-    - "5.25"  # built using Travis-CI Helper
+#    - "5.25"  # built using Travis-CI Helper; NEED ANSWER, NO LONGER AVAILABLE???
     - "5.26"
-    - "5.27"  # built using Travis-CI Helper
+#    - "5.27"  # built using Travis-CI Helper; NEED ANSWER, NO LONGER AVAILABLE???
 #    - "dev"  # built using Travis-CI Helper, same as latest 5.odd dev version above
     - "blead"  # built using Travis-CI Helper
 
