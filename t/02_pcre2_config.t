@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.021_000;
+our $VERSION = 0.022_000;
 
 use Test2::V0;
 use Test::Alien;
@@ -96,17 +96,22 @@ if ($version_split_0 == 10) {
 # run `pcre2-config --cflags`, check for valid output
 my $cflags = [ split /\r?\n/, capture_merged { system 'sh ' . $pcre2_path . ' --cflags'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
 print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags = }, Dumper($cflags), "\n\n";
-cmp_ok((scalar @{$cflags}), '==', 1, 'Command `pcre2-config --cflags` executes with 1 line of output');
 
-my $cflags_0 = $cflags->[0];
+SKIP: {
+    skip 'System install may not necessarily set cflags', 4 if (Alien::PCRE2->install_type() eq 'system');
+
+    cmp_ok((scalar @{$cflags}), '==', 1, 'Command `pcre2-config --cflags` executes with 1 line of output');
+
+    my $cflags_0 = $cflags->[0];
 print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags_0 = '}, $cflags_0, q{'}, "\n\n";
-ok(defined $cflags_0, 'Command `pcre2-config --cflags` 1 line of output is defined');
-is((substr $cflags_0, 0, 2), '-I', 'Command `pcre2-config --cflags` 1 line of output starts correctly');
-if ($OSNAME eq 'MSWin32') {
-    ok($cflags_0 =~ m/([\w\.\-\s\\\:]+)$/xms, 'Command `pcre2-config --cflags` 1 line of output is valid');  # match -IC:\dang_windows\paths\ -ID:\drive_letters\as.well
-}
-else {
-    ok($cflags_0 =~ m/([\w\.\-\s\/]+)$/xms, 'Command `pcre2-config --cflags` 1 line of output is valid');  # match -I/some_path/to.somewhere/ -I/and/another
+    ok(defined $cflags_0, 'Command `pcre2-config --cflags` 1 line of output is defined');
+    is((substr $cflags_0, 0, 2), '-I', 'Command `pcre2-config --cflags` 1 line of output starts correctly');
+    if ($OSNAME eq 'MSWin32') {
+        ok($cflags_0 =~ m/([\w\.\-\s\\\:]+)$/xms, 'Command `pcre2-config --cflags` 1 line of output is valid');  # match -IC:\dang_windows\paths\ -ID:\drive_letters\as.well
+    }
+    else {
+        ok($cflags_0 =~ m/([\w\.\-\s\/]+)$/xms, 'Command `pcre2-config --cflags` 1 line of output is valid');  # match -I/some_path/to.somewhere/ -I/and/another
+    }
 }
  
 done_testing;
