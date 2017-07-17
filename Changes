@@ -1,5 +1,10 @@
 Revision history for Alien::PCRE2.
 
+0.010000 2017-07-16
+
+    - Require PCRE2 Minimum Version v10.30 During Build Time
+    - Test Suite, Skip cflags Test On system Install Type
+
 0.009000 2017-07-15
 
     - Test Suite, Upgrade To Test::Alien
