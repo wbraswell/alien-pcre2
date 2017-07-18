@@ -1,5 +1,9 @@
 Revision history for Alien::PCRE2.
 
+0.011000 2017-07-18
+
+    - Windows, Skip pcre-config Tests If sh Bourne Shell Not Found
+
 0.010000 2017-07-16
 
     - Require PCRE2 Minimum Version v10.30 During Build Time
