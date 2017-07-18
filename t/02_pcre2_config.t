@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.022_000;
+our $VERSION = 0.024_000;
 
 use Test2::V0;
 use Test::Alien;
@@ -73,44 +73,59 @@ SKIP: {
     ok(-x $pcre2_path, 'pcre2-config binary path is executable');
 }
 
-# run `pcre2-config --version`, check for valid output
-my $version = [ split /\r?\n/, capture_merged { system 'sh ' . $pcre2_path . ' --version'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version = }, Dumper($version), "\n\n";
-cmp_ok((scalar @{$version}), '==', 1, 'Command `pcre2-config --version` executes with 1 line of output');
+# DEV NOTE, CORRELATION #ap002: Windows hack, shell script `pcre2-config` not found as executable
+# check if `sh` can be run, if so get path to binary executable
+my $sh_path = undef;
+print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $sh_path = '}, $sh_path, q{'}, "\n\n";
+ok(defined $sh_path, 'sh Bourne shell binary path is defined');
+isnt($sh_path, q{}, 'sh Bourne shell binary path is not empty');
 
-my $version_0 = $version->[0];
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_0 = '}, $version_0, q{'}, "\n\n";
-ok(defined $version_0, 'Command `pcre2-config --version` 1 line of output is defined');
-ok($version_0 =~ m/^([\d\.]+)(?:-DEV)?$/xms, 'Command `pcre2-config --version` 1 line of output is valid');  # match both stable & dev versions
-
-my $version_split = [split /[.]/, $1];
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_split = }, Dumper($version_split), "\n\n";
-my $version_split_0 = $version_split->[0] + 0;
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_split_0 = '}, $version_split_0, q{'}, "\n\n";
-cmp_ok($version_split_0, '>=', 10, 'Command `pcre2-config --version` returns major version 10 or newer');
-if ($version_split_0 == 10) {
-    my $version_split_1 = $version_split->[1] + 0;
-    cmp_ok($version_split_1, '>=', 23, 'Command `pcre2-config --version` returns minor version 23 or newer');
-}
-
-# run `pcre2-config --cflags`, check for valid output
-my $cflags = [ split /\r?\n/, capture_merged { system 'sh ' . $pcre2_path . ' --cflags'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags = }, Dumper($cflags), "\n\n";
 
 SKIP: {
-    skip 'System install may not necessarily set cflags', 4 if (Alien::PCRE2->install_type() eq 'system');
+    skip 'sh Bourne shell not found, can not run pcre2-config shell script', 9 if ((not defined $sh_path) or ($sh_path eq q{}));
 
-    cmp_ok((scalar @{$cflags}), '==', 1, 'Command `pcre2-config --cflags` executes with 1 line of output');
+    # run `pcre2-config --version`, check for valid output
+    my $version = [ split /\r?\n/, capture_merged { system $sh_path . q{ } . $pcre2_path . ' --version'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
+    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version = }, Dumper($version), "\n\n";
+    cmp_ok((scalar @{$version}), '==', 1, 'Command `pcre2-config --version` executes with 1 line of output');
 
-    my $cflags_0 = $cflags->[0];
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags_0 = '}, $cflags_0, q{'}, "\n\n";
-    ok(defined $cflags_0, 'Command `pcre2-config --cflags` 1 line of output is defined');
-    is((substr $cflags_0, 0, 2), '-I', 'Command `pcre2-config --cflags` 1 line of output starts correctly');
-    if ($OSNAME eq 'MSWin32') {
-        ok($cflags_0 =~ m/([\w\.\-\s\\\:]+)$/xms, 'Command `pcre2-config --cflags` 1 line of output is valid');  # match -IC:\dang_windows\paths\ -ID:\drive_letters\as.well
+    my $version_0 = $version->[0];
+    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_0 = '}, $version_0, q{'}, "\n\n";
+    ok(defined $version_0, 'Command `pcre2-config --version` 1 line of output is defined');
+    ok($version_0 =~ m/^([\d\.]+)(?:-DEV)?$/xms, 'Command `pcre2-config --version` 1 line of output is valid');  # match both stable & dev versions
+
+    my $version_split = [split /[.]/, $1];
+    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_split = }, Dumper($version_split), "\n\n";
+    my $version_split_0 = $version_split->[0] + 0;
+    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_split_0 = '}, $version_split_0, q{'}, "\n\n";
+    cmp_ok($version_split_0, '>=', 10, 'Command `pcre2-config --version` returns major version 10 or newer');
+
+
+    SKIP: {
+        skip 'Major version greater than 10 does not require minor version check', 1 if ($version_split_0 != 10);
+        my $version_split_1 = $version_split->[1] + 0;
+        cmp_ok($version_split_1, '>=', 23, 'Command `pcre2-config --version` returns minor version 23 or newer');
     }
-    else {
-        ok($cflags_0 =~ m/([\w\.\-\s\/]+)$/xms, 'Command `pcre2-config --cflags` 1 line of output is valid');  # match -I/some_path/to.somewhere/ -I/and/another
+
+    # run `pcre2-config --cflags`, check for valid output
+    my $cflags = [ split /\r?\n/, capture_merged { system $sh_path . q{ } . $pcre2_path . ' --cflags'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
+    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags = }, Dumper($cflags), "\n\n";
+
+    SKIP: {
+        skip 'System install may not necessarily set cflags', 4 if (Alien::PCRE2->install_type() eq 'system');
+
+        cmp_ok((scalar @{$cflags}), '==', 1, 'Command `pcre2-config --cflags` executes with 1 line of output');
+
+        my $cflags_0 = $cflags->[0];
+        print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags_0 = '}, $cflags_0, q{'}, "\n\n";
+        ok(defined $cflags_0, 'Command `pcre2-config --cflags` 1 line of output is defined');
+        is((substr $cflags_0, 0, 2), '-I', 'Command `pcre2-config --cflags` 1 line of output starts correctly');
+        if ($OSNAME eq 'MSWin32') {
+            ok($cflags_0 =~ m/([\w\.\-\s\\\:]+)$/xms, 'Command `pcre2-config --cflags` 1 line of output is valid');  # match -IC:\dang_windows\paths\ -ID:\drive_letters\as.well
+        }
+        else {
+            ok($cflags_0 =~ m/([\w\.\-\s\/]+)$/xms, 'Command `pcre2-config --cflags` 1 line of output is valid');  # match -I/some_path/to.somewhere/ -I/and/another
+        }
     }
 }
  
