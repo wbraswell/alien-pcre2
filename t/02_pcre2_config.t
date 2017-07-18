@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.025_000;
+our $VERSION = 0.026_000;
 
 use Test2::V0;
 use Test::Alien;
@@ -12,7 +12,7 @@ use English qw(-no_match_vars);  # for $OSNAME
 use Capture::Tiny qw( capture_merged );
 use Data::Dumper;  # DEBUG
 
-plan(26);
+plan(28);
 
 # load alien
 alien_ok('Alien::PCRE2', 'Alien::PCRE2 loads successfully and conforms to Alien::Base specifications');
