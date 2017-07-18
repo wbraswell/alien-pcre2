@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.024_000;
+our $VERSION = 0.025_000;
 
 use Test2::V0;
 use Test::Alien;
@@ -76,6 +76,7 @@ SKIP: {
 # DEV NOTE, CORRELATION #ap002: Windows hack, shell script `pcre2-config` not found as executable
 # check if `sh` can be run, if so get path to binary executable
 my $sh_path = undef;
+$sh_path = can_run('sh');
 print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $sh_path = '}, $sh_path, q{'}, "\n\n";
 ok(defined $sh_path, 'sh Bourne shell binary path is defined');
 isnt($sh_path, q{}, 'sh Bourne shell binary path is not empty');
