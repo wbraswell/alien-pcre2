@@ -1,5 +1,9 @@
 Revision history for Alien::PCRE2.
 
+0.012000 2017-07-18
+
+    - Windows, Skip pcre-config Tests If sh Bourne Shell Not Found, Part 2
+
 0.011000 2017-07-18
 
     - Windows, Skip pcre-config Tests If sh Bourne Shell Not Found
