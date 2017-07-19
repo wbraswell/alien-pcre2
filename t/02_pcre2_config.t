@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = 0.026_000;
+our $VERSION = 0.027_000;
 
 use Test2::V0;
 use Test::Alien;
@@ -78,12 +78,13 @@ SKIP: {
 my $sh_path = undef;
 $sh_path = can_run('sh');
 print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $sh_path = '}, $sh_path, q{'}, "\n\n";
-ok(defined $sh_path, 'sh Bourne shell binary path is defined');
-isnt($sh_path, q{}, 'sh Bourne shell binary path is not empty');
 
 
 SKIP: {
-    skip 'sh Bourne shell not found, can not run pcre2-config shell script', 9 if ((not defined $sh_path) or ($sh_path eq q{}));
+    skip 'sh Bourne shell not found, can not run pcre2-config shell script', 11 if ((not defined $sh_path) or ($sh_path eq q{}));
+
+    ok(defined $sh_path, 'sh Bourne shell binary path is defined');
+    isnt($sh_path, q{}, 'sh Bourne shell binary path is not empty');
 
     # run `pcre2-config --version`, check for valid output
     my $version = [ split /\r?\n/, capture_merged { system $sh_path . q{ } . $pcre2_path . ' --version'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
