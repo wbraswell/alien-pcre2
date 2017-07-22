@@ -39,8 +39,6 @@ install:
 
     perl -V
 
-    perl -e"require CPAN;CPAN::Shell->verbose('install','App::cpanminus');"
-
     echo pre-gmake ALIEN_INSTALL_TYPE = %ALIEN_INSTALL_TYPE%
 
     set ALIEN_INSTALL_TYPE_TMP=%ALIEN_INSTALL_TYPE%
@@ -57,13 +55,13 @@ install:
 
     echo post-gmake ALIEN_INSTALL_TYPE = %ALIEN_INSTALL_TYPE%
 
-    cpanm --verbose --notest IO::Socket::SSL
+    cpanm --notest IO::Socket::SSL
 
-    cpanm --verbose --notest Alien::Build
+    cpanm --notest Alien::Build
 
     perl Makefile.PL
 
-    cpanm --verbose --installdeps .
+    cpanm --installdeps .
 
     set PERL5LIB=blib;lib
 
