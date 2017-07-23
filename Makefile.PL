@@ -43,6 +43,7 @@ WriteMakefile($abmm->mm_args(
 
     PREREQ_PM => {
         'Test2::Suite'          => '0.000072',  # provides Test2::V0
+        'Alien::Build'          => '0.66',  # provides Alien::Build::MM
     },
 
     META_MERGE => {
