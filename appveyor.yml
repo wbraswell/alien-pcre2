@@ -1,4 +1,4 @@
-# v0.030_000
+# v0.031_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -43,9 +43,9 @@ install:
 
     cpanm --verbose --notest IO::Socket::SSL
 
-    perl Makefile.PL
-
     cpanm --verbose --installdeps .
+
+    perl Makefile.PL
 
     set PERL5LIB=blib;lib
 

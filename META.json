@@ -54,6 +54,7 @@
       },
       "runtime" : {
          "requires" : {
+            "Alien::Build" : "0.66",
             "Alien::Build" : "0.25",
             "Test2::Suite" : "0.000072"
          }
