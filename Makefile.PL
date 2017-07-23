@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.011_000;
+our $VERSION = 0.012_000;
 
 use ExtUtils::MakeMaker;
 use Alien::Build::MM;
@@ -40,6 +40,10 @@ WriteMakefile($abmm->mm_args(
         'IO::Socket::SSL'       => '2.043',
         'Alien::Build'          => '0.60',  # provides Alien::Build::MM
         %{$configure_requires_windows}
+    },
+
+    PREREQ_PM => {
+        'Test2::Suite'          => '0.000072',  # provides Test2::V0
     },
 
     META_MERGE => {
