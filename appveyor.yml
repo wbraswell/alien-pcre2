@@ -51,8 +51,6 @@ install:
 
     set PERL5LIB=blib;lib
 
-    set MAKE=gmake
-
     set
 
     perl -le "print for @INC"
