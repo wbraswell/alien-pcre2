@@ -1,4 +1,4 @@
-# v0.032_000
+# v0.033_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -22,21 +22,11 @@ install:
 
     choco install curl
 
-    curl -V
-
     curl -o perl.msi http://strawberryperl.com/download/5.26.0.1/strawberry-perl-5.26.0.1-32bit.msi
 
     msiexec /i perl.msi /quiet /qn /norestart
 
     set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\windows\system32;C:\windows;%path%
-
-    gcc -v
-
-    g++ -v
-
-    perl -V
-
-    perl -e"require CPAN;CPAN::Shell->verbose('install','App::cpanminus');"
 
     cpanm --verbose --notest IO::Socket::SSL
 
