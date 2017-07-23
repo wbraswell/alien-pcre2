@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.016_000;
+our $VERSION = 0.017_000;
 
 use ExtUtils::MakeMaker;
 use Alien::Build::MM;
@@ -42,7 +42,6 @@ WriteMakefile($abmm->mm_args(
     },
 
     PREREQ_PM => {
-        'Alien::Build'          => '0.66',  # provides Alien::Build::MM
         'Test2::Suite'          => '0.000072',  # provides Test2::V0
     },
 

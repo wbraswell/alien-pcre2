@@ -30,7 +30,6 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Alien::Build" : "0.66",
             "Alien::Build::MM" : "0.25",
             "Alien::gmake" : "0.11",
             "Archive::Tar" : "0",
@@ -54,7 +53,6 @@
       },
       "runtime" : {
          "requires" : {
-            "Alien::Build" : "0.66",
             "Alien::Build" : "0.25",
             "Test2::Suite" : "0.000072"
          }
