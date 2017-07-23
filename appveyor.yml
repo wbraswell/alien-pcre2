@@ -1,4 +1,4 @@
-# v0.027_000
+# v0.028_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -6,10 +6,11 @@ skip_tags: true
 clone_depth: 1
 clone_folder: C:\projects\alien-pcre2
 
-environment:
-    matrix:
+#environment:
+#    matrix:
+# DEV NOTE, CORRELATION #ap011: hackish code, setting ALIEN_INSTALL_TYPE=share causes Alien::gmake to fail to properly install in system mode with pre-installed C:\strawberry\c\bin\gmake.exe
         # share test, compile PCRE2 from source
-        - ALIEN_INSTALL_TYPE: share
+#        - ALIEN_INSTALL_TYPE: share
 
 # NEED FIX, CORRELATION #ap010: chocolatey does not support installation of libpcre2*
        # system test, uses PCRE2 from chocolatey
@@ -19,7 +20,6 @@ environment:
 # DEV NOTE: do not test IO::Socket::SSL, about 50% of the time it hangs on the test after "t/sysread_write.t ................. ok"
 # DEV NOTE, CORRELATION #ap003: must set env var MAKE=gmake to change Alien::Build process, does not work to set it in Makefile.PL
 # DEV NOTE, CORRELATION #ap004: must set env var PATH with C:\Progra~1\ instead of C:\Program Files\ to avoid error "file not found C:\Program" in Alien::Build process
-# NEED FIX, CORRELATION #ap011: must `make install` before `make test` to avoid 'error while loading shared libraries: libpcre2-8.so.0: cannot open shared object file: No such file or directory'
 install:
 - cmd: >-
 
@@ -40,22 +40,6 @@ install:
     perl -V
 
     perl -e"require CPAN;CPAN::Shell->verbose('install','App::cpanminus');"
-
-    echo pre-gmake ALIEN_INSTALL_TYPE = %ALIEN_INSTALL_TYPE%
-
-    set ALIEN_INSTALL_TYPE_TMP=%ALIEN_INSTALL_TYPE%
-
-    set ALIEN_INSTALL_TYPE=system
-
-    echo gmake ALIEN_INSTALL_TYPE = %ALIEN_INSTALL_TYPE%
-
-    cpanm --verbose Alien::MSYS
-
-    cpanm --verbose Alien::gmake
-
-    set ALIEN_INSTALL_TYPE=%ALIEN_INSTALL_TYPE_TMP%
-
-    echo post-gmake ALIEN_INSTALL_TYPE = %ALIEN_INSTALL_TYPE%
 
     cpanm --verbose --notest IO::Socket::SSL
 

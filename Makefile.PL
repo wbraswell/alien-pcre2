@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.010_000;
+our $VERSION = 0.011_000;
 
 use ExtUtils::MakeMaker;
 use Alien::Build::MM;
@@ -12,9 +12,14 @@ BEGIN {
     use English qw(-no_match_vars);  # for $OSNAME
 }
 
-# fix read-only blib/lib in MS Windows
+# MS Windows OS, fix read-only blib/lib directory & enable GNU configure/make
+my $configure_requires_windows = {};
 if ( $OSNAME eq 'MSWin32' ) {
     push( @ExtUtils::MakeMaker::Overridable, qw(pm_to_blib) );
+    $configure_requires_windows = {
+        'Alien::MSYS'  => '0.08',
+        'Alien::gmake' => '0.20',
+    };
 }
 
 my $abmm = Alien::Build::MM->new;
@@ -34,6 +39,7 @@ WriteMakefile($abmm->mm_args(
         'Test2::Suite'          => '0.000072',  # provides Test2::V0
         'IO::Socket::SSL'       => '2.043',
         'Alien::Build'          => '0.60',  # provides Alien::Build::MM
+        %{$configure_requires_windows}
     },
 
     META_MERGE => {
