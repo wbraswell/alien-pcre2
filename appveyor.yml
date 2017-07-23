@@ -16,10 +16,7 @@ clone_folder: C:\projects\alien-pcre2
        # system test, uses PCRE2 from chocolatey
 #        - ALIEN_INSTALL_TYPE: system
 
-# DEV NOTE, CORRELATION #ap001: must install IO::Socket::SSL & Alien::Build from Makefile.PL (which becomes META.json, for CPAN) & .travis.yml & appveyor.yml 
-# DEV NOTE: do not test IO::Socket::SSL, about 50% of the time it hangs on the test after "t/sysread_write.t ................. ok"
-# DEV NOTE, CORRELATION #ap003: must set env var MAKE=gmake to change Alien::Build process, does not work to set it in Makefile.PL
-# DEV NOTE, CORRELATION #ap004: must set env var PATH with C:\Progra~1\ instead of C:\Program Files\ to avoid error "file not found C:\Program" in Alien::Build process
+# DEV NOTE: Windows OS, force manual install w/out test of IO::Socket::SSL, about 50% of the time it hangs on the test after "t/sysread_write.t ................. ok"
 install:
 - cmd: >-
 

@@ -42,14 +42,10 @@ before_install:
 # [ END Travis-CI Helper ]
 
 install:
-    # DEV NOTE, CORRELATION #ap001: must install IO::Socket::SSL & Alien::Build from Makefile.PL (which becomes META.json, for CPAN) & .travis.yml & appveyor.yml 
-    - cpanm --verbose IO::Socket::SSL
-    - cpanm --verbose Alien::Build
     - cpanm --verbose --installdeps .
 
 script:
     - perl Makefile.PL
-    # NEED FIX, CORRELATION #ap011: must `make install` before `make test` to avoid 'error while loading shared libraries: libpcre2-8.so.0: cannot open shared object file: No such file or directory'
     - make
     - make test
     - make install
