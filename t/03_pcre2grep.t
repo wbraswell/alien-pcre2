@@ -20,7 +20,7 @@ print {*STDERR} "\n", q{<<< DEBUG >>> in t/03_pcre2grep.t, have $run_object->err
 $run_object->success('Command `pcre2grep --version` runs successfully');
 is((substr $run_object->out(), 0, 18), 'pcre2grep version ', 'Command `pcre2grep --version` output starts correctly');
 # DEV NOTE: can't use out_like() on the next line because it does not properly capture to $1, as used in the following split
-ok($run_object->out() =~ m/([\d\.]+)(?:-DEV)?[\d\.\-\s]*$/xms, 'Command `pcre2grep --version` runs with valid output');
+ok($run_object->out() =~ m/([\d\.]+)(?:-(?:DEV|RC\d))?[\d\.\-\s]*$/xms, 'Command `pcre2grep --version` runs with valid output');
 
 # test actual version numbers
 my $version_split = [split /[.]/, $1];
