@@ -12,7 +12,7 @@ use English qw(-no_match_vars);  # for $OSNAME
 use Capture::Tiny qw( capture_merged );
 use Data::Dumper;  # DEBUG
 
-plan(28);
+my $num_tests = 23;
 
 # load alien
 alien_ok('Alien::PCRE2', 'Alien::PCRE2 loads successfully and conforms to Alien::Base specifications');
@@ -22,6 +22,8 @@ print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_bin_
 unshift @PATH, @{ $pcre2_bin_dirs };
 
 # test pcre2 directory permissions
+my $num_bin_dirs = scalar @$pcre2_bin_dirs;
+$num_tests += (5 * $num_bin_dirs);
 foreach my $pcre2_bin_dir (@{$pcre2_bin_dirs}) {
     ok(defined $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is defined');
     isnt($pcre2_bin_dir, q{}, 'Alien::PCRE2->bin_dir() element is not empty');
@@ -131,4 +133,4 @@ SKIP: {
     }
 }
  
-done_testing;
+done_testing($num_tests);
