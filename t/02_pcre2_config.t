@@ -12,23 +12,25 @@ use English qw(-no_match_vars);  # for $OSNAME
 use Capture::Tiny qw( capture_merged );
 use Data::Dumper;  # DEBUG
 
-plan(28);
+plan(24);
 
 # load alien
 alien_ok('Alien::PCRE2', 'Alien::PCRE2 loads successfully and conforms to Alien::Base specifications');
 
 my $pcre2_bin_dirs = [ Alien::PCRE2->bin_dir() ];
 print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_bin_dirs = '}, Dumper($pcre2_bin_dirs), q{'}, "\n\n";
-unshift @PATH, @{ $pcre2_bin_dirs };
 
-# test pcre2 directory permissions
-foreach my $pcre2_bin_dir (@{$pcre2_bin_dirs}) {
-    ok(defined $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is defined');
-    isnt($pcre2_bin_dir, q{}, 'Alien::PCRE2->bin_dir() element is not empty');
-    ok(-e $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element exists');
-    ok(-r $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is readable');
-    ok(-d $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is a directory');
-}
+subtest 'Check bin_dir permissions' => sub {
+    skip_all 'No bin_dir for system install' if Alien::PCRE2->install_type('system');
+    # test pcre2 directory permissions
+    foreach my $pcre2_bin_dir (@{$pcre2_bin_dirs}) {
+        ok(defined $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is defined');
+        isnt($pcre2_bin_dir, q{}, 'Alien::PCRE2->bin_dir() element is not empty');
+        ok(-e $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element exists');
+        ok(-r $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is readable');
+        ok(-d $pcre2_bin_dir, 'Alien::PCRE2->bin_dir() element is a directory');
+    }
+};
 
 # check if `pcre2-config` can be run, if so get path to binary executable
 my $pcre2_path = undef;
