@@ -12,8 +12,7 @@ plugin 'PkgConfig' => (
  
 share {
     plugin Download => (
-#        url => 'ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/',  # ERROR: "Sorry, you may not have multiple connections."
-        url => 'https://wbraswell.github.io/pcre2-mirror/',  # GitHub mirror server
+        url => 'https://github.com/PhilipHazel/pcre2/releases',
 
         filter => qr/^pcre2-.*\.tar\.gz$/,
 

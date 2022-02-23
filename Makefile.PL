@@ -15,7 +15,6 @@ BEGIN {
 # MS Windows OS, fix read-only blib/lib directory & enable GNU configure/make
 my $configure_requires_windows = {};
 if ( $OSNAME eq 'MSWin32' ) {
-    push( @ExtUtils::MakeMaker::Overridable, qw(pm_to_blib) );
     $configure_requires_windows = {
         'Alien::MSYS'  => '0.08',
         'Alien::gmake' => '0.20',
@@ -68,24 +67,14 @@ WriteMakefile($abmm->mm_args(
     },
 ));
 
-
-package MY;
-BEGIN { use English; }
-
-sub postamble {
-    $abmm->mm_postamble;
-}
-
-sub pm_to_blib {
-    my $self = shift;
-    my $blib = $self->SUPER::pm_to_blib(@_);
-
-    # un-read-only blib/lib for tests to pass, files are modified at runtime there
-    if ( $OSNAME eq 'MSWin32' ) {
-        my ( $lastline, $start ) = qq{\t\$(NOECHO) \$(TOUCH) pm_to_blib\n};
-        ( $start = index( $blib, $lastline ) ) == -1
-            && die "Can't find replacement string for pm_to_blib target";
-        substr( $blib, $start, 0, "\t" . 'attrib -R /S  blib/lib/*' . "\n" );
-    }
-    return $blib;
+{ package
+    MY;
+  sub postamble {
+    $abmm->mm_postamble(@_);
+  }
+  sub install {
+    $abmm->can('mm_install')
+      ? $abmm->mm_install(@_)
+      : shift->SUPER::install(@_);
+  }
 }

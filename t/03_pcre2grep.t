@@ -8,7 +8,11 @@ use Alien::PCRE2;
 use English qw(-no_match_vars);  # for $OSNAME
 use Data::Dumper;  # DEBUG
 
-plan(10);
+if( Alien::PCRE2->install_type('system') ) {
+    skip_all 'pcre2grep might not be installed for system install';
+} else {
+    plan(10);
+}
 
 # load alien
 alien_ok('Alien::PCRE2', 'Alien::PCRE2 loads successfully and conforms to Alien::Base specifications');
