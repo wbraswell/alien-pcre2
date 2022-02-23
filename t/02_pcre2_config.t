@@ -96,7 +96,7 @@ SKIP: {
     my $version_0 = $version->[0];
     print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_0 = '}, $version_0, q{'}, "\n\n";
     ok(defined $version_0, 'Command `pcre2-config --version` 1 line of output is defined');
-    ok($version_0 =~ m/^([\d\.]+)(?:-DEV)?$/xms, 'Command `pcre2-config --version` 1 line of output is valid');  # match both stable & dev versions
+    ok($version_0 =~ m/^([\d\.]+)(?:-(?:DEV|RC\d))?$/xms, 'Command `pcre2-config --version` 1 line of output is valid');  # match both stable & dev versions
 
     my $version_split = [split /[.]/, $1];
     print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_split = }, Dumper($version_split), "\n\n";
