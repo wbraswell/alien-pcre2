@@ -6,8 +6,11 @@ skip_tags: true
 clone_depth: 1
 clone_folder: C:\projects\alien-pcre2
 
-#environment:
-#    matrix:
+environment:
+    matrix:
+        - BITS: 32
+        - BITS: 64
+
 # DEV NOTE, CORRELATION #ap011: hackish code, setting ALIEN_INSTALL_TYPE=share causes Alien::gmake to fail to properly install in system mode with pre-installed C:\strawberry\c\bin\gmake.exe
         # share test, compile PCRE2 from source
 #        - ALIEN_INSTALL_TYPE: share
@@ -19,12 +22,9 @@ clone_folder: C:\projects\alien-pcre2
 # DEV NOTE: Windows OS, force manual install w/out test of IO::Socket::SSL, about 50% of the time it hangs on the test after "t/sysread_write.t ................. ok"
 install:
 - cmd: >-
+    IF %BITS%==64 ( choco install strawberryperl )
 
-    choco install curl
-
-    curl -o perl.msi http://strawberryperl.com/download/5.26.0.1/strawberry-perl-5.26.0.1-32bit.msi
-
-    msiexec /i perl.msi /quiet /qn /norestart
+    IF %BITS%==32 ( choco install strawberryperl --x86 )
 
     set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\windows\system32;C:\windows;%path%
 
