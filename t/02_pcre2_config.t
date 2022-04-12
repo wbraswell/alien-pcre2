@@ -18,7 +18,7 @@ plan(24);
 alien_ok('Alien::PCRE2', 'Alien::PCRE2 loads successfully and conforms to Alien::Base specifications');
 
 my $pcre2_bin_dirs = [ Alien::PCRE2->bin_dir() ];
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_bin_dirs = '}, Dumper($pcre2_bin_dirs), q{'}, "\n\n";
+diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_bin_dirs = '}, Dumper($pcre2_bin_dirs), q{'}, "\n\n";
 
 subtest 'Check bin_dir permissions' => sub {
     skip_all 'No bin_dir for system install' if Alien::PCRE2->install_type('system');
@@ -42,19 +42,19 @@ if ($OSNAME eq 'MSWin32') {
 else {
     $pcre2_path = can_run('pcre2-config');
 }
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_path = '}, $pcre2_path, q{'}, "\n\n";
+diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_path = '}, $pcre2_path, q{'}, "\n\n";
 ok(defined $pcre2_path, 'pcre2-config binary path is defined');
 isnt($pcre2_path, q{}, 'pcre2-config binary path is not empty');
 
 # split pcre2-config executable file from directory containing it
 (my $pcre2_volume, my $pcre2_directories, my $pcre2_file) = File::Spec->splitpath($pcre2_path);
 my $pcre2_directory = File::Spec->catpath($pcre2_volume, $pcre2_directories, q{});
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_directory = '}, $pcre2_directory, q{'}, "\n\n";
+diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $pcre2_directory = '}, $pcre2_directory, q{'}, "\n\n";
 
 # DEV NOTE, CORRELATION #ap002: Windows hack, shell script `pcre2-config` not found as executable
 if ($OSNAME eq 'MSWin32') {
     $pcre2_path = File::Spec->catpath($pcre2_volume, $pcre2_directories, q{pcre2-config});
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have WINDOWS HACK $pcre2_path = '}, $pcre2_path, q{'}, "\n\n";
+diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have WINDOWS HACK $pcre2_path = '}, $pcre2_path, q{'}, "\n\n";
 }
 
 # test pcre2 directory permissions
@@ -79,7 +79,7 @@ SKIP: {
 # check if `sh` can be run, if so get path to binary executable
 my $sh_path = undef;
 $sh_path = can_run('sh');
-print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $sh_path = '}, $sh_path, q{'}, "\n\n";
+diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $sh_path = '}, $sh_path, q{'}, "\n\n";
 
 
 SKIP: {
@@ -90,18 +90,18 @@ SKIP: {
 
     # run `pcre2-config --version`, check for valid output
     my $version = [ split /\r?\n/, capture_merged { system $sh_path . q{ } . $pcre2_path . ' --version'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
-    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version = }, Dumper($version), "\n\n";
+    diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version = }, Dumper($version), "\n\n";
     cmp_ok((scalar @{$version}), '==', 1, 'Command `pcre2-config --version` executes with 1 line of output');
 
     my $version_0 = $version->[0];
-    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_0 = '}, $version_0, q{'}, "\n\n";
+    diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_0 = '}, $version_0, q{'}, "\n\n";
     ok(defined $version_0, 'Command `pcre2-config --version` 1 line of output is defined');
     ok($version_0 =~ m/^([\d\.]+)(?:-(?:DEV|RC\d))?$/xms, 'Command `pcre2-config --version` 1 line of output is valid');  # match both stable & dev versions
 
     my $version_split = [split /[.]/, $1];
-    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_split = }, Dumper($version_split), "\n\n";
+    diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_split = }, Dumper($version_split), "\n\n";
     my $version_split_0 = $version_split->[0] + 0;
-    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_split_0 = '}, $version_split_0, q{'}, "\n\n";
+    diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $version_split_0 = '}, $version_split_0, q{'}, "\n\n";
     cmp_ok($version_split_0, '>=', 10, 'Command `pcre2-config --version` returns major version 10 or newer');
 
 
@@ -113,7 +113,7 @@ SKIP: {
 
     # run `pcre2-config --cflags`, check for valid output
     my $cflags = [ split /\r?\n/, capture_merged { system $sh_path . q{ } . $pcre2_path . ' --cflags'; }];  # WINDOWS HACK: must explicitly give 'sh' or it won't run
-    print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags = }, Dumper($cflags), "\n\n";
+    diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags = }, Dumper($cflags), "\n\n";
 
     SKIP: {
         skip 'System install may not necessarily set cflags', 4 if (Alien::PCRE2->install_type() eq 'system');
@@ -121,7 +121,7 @@ SKIP: {
         cmp_ok((scalar @{$cflags}), '==', 1, 'Command `pcre2-config --cflags` executes with 1 line of output');
 
         my $cflags_0 = $cflags->[0];
-        print {*STDERR} "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags_0 = '}, $cflags_0, q{'}, "\n\n";
+        diag "\n\n", q{<<< DEBUG >>> in t/02_pcre2_config.t, have $cflags_0 = '}, $cflags_0, q{'}, "\n\n";
         ok(defined $cflags_0, 'Command `pcre2-config --cflags` 1 line of output is defined');
         is((substr $cflags_0, 0, 2), '-I', 'Command `pcre2-config --cflags` 1 line of output starts correctly');
         if ($OSNAME eq 'MSWin32') {
