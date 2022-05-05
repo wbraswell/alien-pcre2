@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.018_000;
+our $VERSION = 0.020_000;
 
 use ExtUtils::MakeMaker;
 use Alien::Build::MM;
@@ -16,8 +16,8 @@ BEGIN {
 my $configure_requires_windows = {};
 if ( $OSNAME eq 'MSWin32' ) {
     $configure_requires_windows = {
-        'Alien::MSYS'  => '0.08',
-        'Alien::gmake' => '0.20',
+        'Alien::MSYS'  => '0.14',
+        'Alien::gmake' => '0.21',
     };
 }
 
@@ -33,13 +33,13 @@ WriteMakefile($abmm->mm_args(
 #    EXE_FILES        => ['bin/pcre2-config', 'bin/pcre2grep', 'bin/pcre2test'],  # error, no rule to make target 'bin/pcre2grep'
 
     CONFIGURE_REQUIRES => {
-        'IO::Socket::SSL'       => '2.043',
-        'Alien::Build'          => '0.66',  # provides Alien::Build::MM
+        'IO::Socket::SSL'       => '2.074',
+        'Alien::Build'          => '2.48',  # v0.66 provides Alien::Build::MM; v2.48 (or earlier) provides Test::Alien::Diag
         %{$configure_requires_windows}
     },
 
     PREREQ_PM => {
-        'Test2::Suite'          => '0.000072',  # provides Test2::V0
+        'Test2::Suite'          => '0.000145',  # v0.000072 (or earlier) provides Test2::V0
     },
 
     META_MERGE => {
