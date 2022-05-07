@@ -5,7 +5,7 @@
    ],
    "description" : "PCRE2 is the new Perl Compatible Regular Expression engine, written in C, compiled and installed via Alien",
    "dynamic_config" : 0,
-   "generated_by" : "ExtUtils::MakeMaker version 7.0401, CPAN::Meta::Converter version 2.150005",
+   "generated_by" : "ExtUtils::MakeMaker version 7.34, CPAN::Meta::Converter version 2.150005",
    "keywords" : [
       "alien",
       "pcre",
@@ -34,10 +34,11 @@
             "Alien::gmake" : "0.11",
             "Archive::Tar" : "0",
             "Config" : "0",
-            "HTML::LinkExtor" : "0",
             "HTTP::Tiny" : "0.044",
             "IO::Socket::SSL" : "1.56",
             "IO::Zlib" : "0",
+            "Mojo::DOM" : "0",
+            "Mojolicious" : "7.00",
             "Net::SSLeay" : "1.49",
             "Sort::Versions" : "0",
             "URI" : "0",
@@ -46,20 +47,22 @@
       },
       "configure" : {
          "requires" : {
-            "Alien::Build" : "0.66",
+            "Alien::Build" : "2.48",
             "Alien::Build::MM" : "0.25",
-            "IO::Socket::SSL" : "2.043"
+            "IO::Socket::SSL" : "2.074"
          }
       },
       "runtime" : {
          "requires" : {
             "Alien::Build" : "0.25",
-            "Test2::Suite" : "0.000072"
+            "Test2::Suite" : "0.000145"
          }
       }
    },
    "release_status" : "stable",
    "resources" : {
+      "X_mailinglist" : "https://lists.exim.org/lurker/list/pcre-dev.html",
+      "X_wiki" : "https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions",
       "bugtracker" : {
          "web" : "http://rt.cpan.org/Public/Dist/Display.html?Name=Alien-PCRE2"
       },
@@ -72,22 +75,21 @@
          "url" : "git://github.com/wbraswell/alien-pcre2.git",
          "web" : "https://github.com/wbraswell/alien-pcre2"
       },
-      "x_IRC" : "irc://irc.perl.org/#native",
-      "x_mailinglist" : "https://lists.exim.org/lurker/list/pcre-dev.html",
-      "x_wiki" : "https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions"
+      "x_IRC" : "irc://irc.perl.org/#native"
    },
-   "version" : "0.015000",
+   "version" : "0.016000",
    "x_alienfile" : {
-      "generated_by" : "Alien::Build::MM version 1.28",
+      "generated_by" : "Alien::Build::MM version 2.48",
       "requires" : {
          "share" : {
             "Alien::gmake" : "0.11",
             "Archive::Tar" : "0",
             "Config" : "0",
-            "HTML::LinkExtor" : "0",
             "HTTP::Tiny" : "0.044",
             "IO::Socket::SSL" : "1.56",
             "IO::Zlib" : "0",
+            "Mojo::DOM" : "0",
+            "Mojolicious" : "7.00",
             "Net::SSLeay" : "1.49",
             "Sort::Versions" : "0",
             "URI" : "0",

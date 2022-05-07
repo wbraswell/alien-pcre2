@@ -1,9 +1,12 @@
 Revision history for Alien::PCRE2.
 
-0.016000 2022-05-08 Codename FOO BAR
+0.016000 2022-05-08 Codename Queen Mother
 
     - HOLIDAY EDITION: Happy Mother's Day!
-    - Upgrade To PCRE2 v10.40
+    - Upgrade To PCRE2 v10.34
+    - Enable Minimum Version Checking Via Environmental Variable (thanks Zaki Mughal)
+    - Require PCRE2 v10.34 Minimum Version, Due To Security Vulnerability (thanks Zaki Mughal)
+        https://nvd.nist.gov/vuln/detail/CVE-2019-20454
     - Require Alien::Build v2.48, Provides Test::Alien::Diag etc.
     - Require Alien::MSYS v0.14
     - Require Alien::gmake v0.21
