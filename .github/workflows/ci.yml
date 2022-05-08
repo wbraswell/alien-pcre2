@@ -18,7 +18,46 @@ env:
     mingw-w64-x86_64-curl
 
 jobs:
+  dist:
+    name: Make distribution
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Cache ~/perl5
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-dist-locallib
+          path: ~/perl5
+      - name: Perl version
+        run: |
+          perl -v
+      - name: Install cpanm
+        run: |
+          curl -L https://cpanmin.us | perl - --sudo App::cpanminus
+      - name: Install local::lib
+        run: |
+          cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+      - name: Install author deps
+        shell: bash
+        run: |
+          eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+          cpanm --notest --with-recommends --with-suggests \
+            ExtUtils::MakeMaker \
+            Alien::Build::MM
+      - name: Make distribution
+        shell: bash
+        run: |
+          eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+          perl Makefile.PL
+          make manifest dist DISTVNAME=dist
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: ./dist.tar.gz
   test:
+    needs: dist
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -36,16 +75,21 @@ jobs:
         perl-version: ['5.8', '5.20', '5.30', '5.34']
         alien-install-type: [ 'system', 'share' ]
         include:
+          # Windows strawberry     | share
           - { perl-version: '5.34' , os: windows-latest , dist: strawberry , alien-install-type: 'share'  }
+          # Windows msys2          | system, share
           - { perl-version: '5.34' , os: windows-latest , dist: msys2      , alien-install-type: 'system' }
           - { perl-version: '5.34' , os: windows-latest , dist: msys2      , alien-install-type: 'share'  }
+          # macOS                  | system, share
           - { perl-version: '5.34' , os: macos-11       ,                    alien-install-type: 'system' }
           - { perl-version: '5.34' , os: macos-11       ,                    alien-install-type: 'share'  }
     name: Perl ${{ matrix.perl-version }} on ${{ matrix.os }} with install-type ${{ matrix.alien-install-type }}, dist ${{ matrix.dist }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Get dist artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
 
       # Setup system package
       - name: Setup system ${{ env.PKG_NAME }} (apt)
@@ -88,8 +132,7 @@ jobs:
 
       - name: Install Perl deps
         run: |
-          cpanm --notest Alien::Build::MM
-          cpanm --notest --installdeps .
+          cpanm --notest --installdeps dist.tar.gz
 
       - name: Set ALIEN_INSTALL_TYPE
         shell: bash
@@ -98,4 +141,4 @@ jobs:
 
       - name: Run tests
         run: |
-          cpanm --verbose --test-only .
+          cpanm --verbose --test-only dist.tar.gz
