@@ -28,8 +28,6 @@ install:
 
     set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\windows\system32;C:\windows;%path%
 
-    cpanm --verbose --notest IO::Socket::SSL
-
     cpanm --verbose --installdeps .
 
     perl Makefile.PL
