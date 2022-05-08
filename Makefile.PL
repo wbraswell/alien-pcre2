@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.020_000;
+our $VERSION = 0.030_000;
 
 use ExtUtils::MakeMaker;
 use Alien::Build::MM;
