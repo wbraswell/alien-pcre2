@@ -6,6 +6,17 @@ on:
       - '*'
   pull_request:
 
+env:
+  PKG_NAME: PCRE2
+  PKG_UBUNTU: libpcre2-dev
+  PKG_HOMEBREW: pcre2
+  PKG_MSYS2_MINGW64: mingw-w64-x86_64-pcre2
+  PKG_MSYS2_MINGW64_DEPS: >-
+    base-devel
+    mingw-w64-x86_64-toolchain
+    mingw-w64-x86_64-perl
+    mingw-w64-x86_64-curl
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -36,39 +47,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Setup system PCRE2
-      - name: Setup system PCRE2 (apt)
+      # Setup system package
+      - name: Setup system ${{ env.PKG_NAME }} (apt)
         if: runner.os == 'Linux' && matrix.alien-install-type == 'system'
         run: |
-          sudo apt-get -y update && sudo apt-get install -y libpcre2-dev
-      - name: Setup system PCRE2 (homebrew)
+          sudo apt-get -y update && sudo apt-get install -y ${{ env.PKG_UBUNTU }}
+      - name: Setup system ${{ env.PKG_NAME }} (homebrew)
         if: runner.os == 'macOS' && matrix.alien-install-type == 'system'
         run: |
-          brew install pcre2
+          brew install ${{ env.PKG_HOMEBREW }}
       - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
         if: runner.os == 'Windows' && matrix.dist == 'msys2'
         with:
           update: true
-          install: >-
-            base-devel
-            mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-perl
-      - name: Set up PCRE2 (MSYS2/MinGW pacman)
+          install: ${{ env.PKG_MSYS2_MINGW64_DEPS }}
+      - name: Set up ${{ env.PKG_NAME }} (MSYS2/MinGW pacman)
         if: runner.os == 'Windows' && matrix.dist == 'msys2' && matrix.alien-install-type == 'system'
         shell: msys2 {0}
         run: |
-          pacman -S --needed --noconfirm mingw-w64-x86_64-pcre2
+          pacman -S --needed --noconfirm ${{ env.PKG_MSYS2_MINGW64 }}
 
       # Setup Perl
       - name: Set up perl
         uses: shogo82148/actions-setup-perl@v1
-        if: matrix.os != 'windows-latest'
+        if: runner.os != 'Windows'
         with:
           perl-version: ${{ matrix.perl-version }}
       - name: Set up perl (Strawberry)
         uses: shogo82148/actions-setup-perl@v1
-        if: matrix.os == 'windows-latest' && matrix.dist == 'strawberry'
+        if: runner.os == 'Windows' && matrix.dist == 'strawberry'
         with:
           distribution: 'strawberry'
 
