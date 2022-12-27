@@ -28,6 +28,8 @@ install:
 
     set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\windows\system32;C:\windows;%path%
 
+    cpanm -n ExtUtils::MakeMaker Alien::Build::MM Alien::Build::Plugin::Download::GitHub
+
     cpanm --verbose --installdeps .
 
     perl Makefile.PL
