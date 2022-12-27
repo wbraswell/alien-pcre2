@@ -44,7 +44,8 @@ jobs:
           eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
           cpanm --notest --with-recommends --with-suggests \
             ExtUtils::MakeMaker \
-            Alien::Build::MM
+            Alien::Build::MM \
+            Alien::Build::Plugin::Download::GitHub
       - name: Make distribution
         shell: bash
         run: |
@@ -140,5 +141,7 @@ jobs:
           echo "ALIEN_INSTALL_TYPE=${{ matrix.alien-install-type }}" >> $GITHUB_ENV
 
       - name: Run tests
+        env:
+          ALIEN_BUILD_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cpanm --verbose --test-only dist.tar.gz
