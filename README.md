@@ -6,6 +6,7 @@ Alien::PCRE2, Use Perl To Build The New Perl Compatible Regular Expression Engin
 # make CPAN release
 $ vi lib/Alien/PCRE2.pm  # update version
 $ vi Changes  # update changes
+$ make realclean
 $ perl Makefile.PL
 $ make manifest
 $ less MANIFEST
